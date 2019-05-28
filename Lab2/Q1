@@ -1,0 +1,31 @@
+module lab_2_Q1(LEDR, SW);
+  input [9:0] SW;
+  output [0] LEDR;
+
+  mux7to1 my_mux7to1(
+    .MuxSelect(SW[9:7]),
+    .MuxInput(SW[6:0]),
+    .Out(LEDR[0]),
+    );
+endmodule
+
+module mux7to1(MuxSelect, MuxInput, Out):
+  input [2:0] MuxSelect;
+  input [6:0] MuxInput;
+  output Out;
+
+  reg Out; // declare the output signal for the always block
+  always @(*) // declare always block with sensitivity *
+  begin
+    case (MuxSelect[2:0]) // start case statement. 8 possibilities with 3 select wires
+      3'b000: Out = MuxInput[0];
+      3'b001: Out = MuxInput[1];
+      3'b010: Out = MuxInput[2];
+      3'b011: Out = MuxInput[3];
+      3'b100: Out = MuxInput[4];
+      3'b101: Out = MuxInput[5];
+      3'b110: Out = MuxInput[6];
+      default: Out = 1'b0; // Actually more than 8, so we need to make sure to have this default case
+      endcase
+  end
+endmodule
